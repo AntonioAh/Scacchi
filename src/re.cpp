@@ -5,5 +5,8 @@ Re::Re(int riga, int colonna, const Colore& colore) : Pezzo(riga, colonna, color
 }
 
 bool Re::muovi(const Casella& arrivo, std::array<std::unique_ptr<Pezzo>, 64>& scacchiera){
+    if (abs(riga - arrivo.riga) < 1 && abs(colonna - arrivo.colonna) < 1)
+        return false;
+
     return false;
 }

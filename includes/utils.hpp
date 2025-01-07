@@ -7,9 +7,11 @@ enum Colore{
 
 struct Casella{
     int riga, colonna, posizione;
-    Casella (int r, int c) : riga(r), colonna(c), posizione(riga * 8 + colonna) {
+    Casella (int r, int c);
+    bool operator==(const Casella& other) const;
+    bool operator!=(const Casella& other) const;
+    Casella operator+(const Casella& other);
 
-    }
 };
 
 #endif
