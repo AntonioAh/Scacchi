@@ -1,2 +1,5 @@
-/build
+build/
 .cache/
+includes/glad/
+includes/KHR
+src/glad.c
