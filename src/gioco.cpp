@@ -1,3 +1,4 @@
+#include <GLFW/glfw3.h>
 
 #include "utils.hpp"
 #include <gioco.hpp>
@@ -10,7 +11,13 @@
 #include <regina.hpp>
 #include <re.hpp>
 
-Gioco::Gioco(){
+bool Gioco::shouldClose = false;
+
+Gioco::Gioco() : turno(bianco){
+
+}
+
+void Gioco::init(){
     for (int i = 0; i < 8; i++){
         scacchiera[48 + i] = std::make_unique<Pedone>(6, i, bianco);
         scacchiera[8 + 1] = std::make_unique<Pedone>(1, i, nero);
@@ -36,6 +43,15 @@ Gioco::Gioco(){
     scacchiera[66] = std::make_unique<Torre>(7, 7, bianco);
 }
 
+void Gioco::mouseCallback(int button, int action, int mods){
+    if (button == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
+        shouldClose = true;
+    }
+}
+
+void Gioco::keyCallback(int key, int scancode, int action, int mods){
+
+}
 
 bool Gioco::mossaValida(int rigaPartenza, int colonnaPartenza, int rigaArrivo, int colonnaArrivo){
     Casella partenza(rigaPartenza, colonnaPartenza);
