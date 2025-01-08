@@ -1,6 +1,9 @@
 #ifndef GIOCO_H
 #define GIOCO_H
 
+#include <GLFW/glfw3.h>
+
+
 #include <memory>
 #include <utils.hpp>
 #include <pezzo.hpp>
@@ -14,18 +17,18 @@ public:
     Gioco();
     void init();
 
-    static bool shouldClose;
+    bool shouldClose;
 
-    static void mouseCallback(int button, int action, int mods);
-    static void keyCallback(int key, int scancode, int action, int mods);
+    void mouseCallback(int button, int action, int mods);
+    void keyCallback(int key, int scancode, int action, int mods);
 
 
-    void render();
+    void render(GLFWwindow *window);
     void destroy();
 
 
 private:
-
+    unsigned int VAO;
 
     std::array<std::unique_ptr<Pezzo> , 64> scacchiera;
 

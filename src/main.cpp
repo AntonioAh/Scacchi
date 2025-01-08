@@ -26,14 +26,13 @@ int main(int argc, char *argv[]){
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
-    GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "orthographic cube", nullptr, nullptr);
+    GLFWwindow *window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Chess", nullptr, nullptr);
     if (!window){
         std::cerr << "errore creazione finestra\n";
         return 1;
     }
     glfwMakeContextCurrent(window);
 
-    gioco.init();
 
     glfwSetKeyCallback(window,  key_callback_funtion);
     glfwSetMouseButtonCallback(window, mouse_callback_funcion);
@@ -43,8 +42,9 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
+    gioco.init();
     while(!gioco.shouldClose){
-        //gioco.render();
+        gioco.render(window);
     }
 
     // Gioco::destroy();
@@ -52,9 +52,9 @@ int main(int argc, char *argv[]){
 }
 
 void key_callback_funtion(GLFWwindow *window, int key, int scancode, int action, int mods){
-    Gioco::keyCallback(key, scancode, action, mods);
+    gioco.keyCallback(key, scancode, action, mods);
 }
 
 void mouse_callback_funcion(GLFWwindow *window, int button, int action, int mods){
-    Gioco::mouseCallback(button, action, mods);
+    gioco.mouseCallback(button, action, mods);
 }

@@ -1,7 +1,7 @@
-#include <GLFW/glfw3.h>
-
-#include "utils.hpp"
+#include "resourceManager.hpp"
+#include <utils.hpp>
 #include <gioco.hpp>
+#include <resourceManager.hpp>
 #include <memory>
 
 #include <pedone.hpp>
@@ -11,9 +11,7 @@
 #include <regina.hpp>
 #include <re.hpp>
 
-bool Gioco::shouldClose = false;
-
-Gioco::Gioco() : turno(bianco){
+Gioco::Gioco() : turno(bianco), shouldClose(false){
 
 }
 
@@ -40,17 +38,42 @@ void Gioco::init(){
     scacchiera[60] = std::make_unique<Re>(7, 4, bianco);
     scacchiera[61] = std::make_unique<Alfiere>(7, 5, bianco);
     scacchiera[62] = std::make_unique<Cavallo>(7, 6, bianco);
-    scacchiera[66] = std::make_unique<Torre>(7, 7, bianco);
+    scacchiera[63] = std::make_unique<Torre>(7, 7, bianco);
+
+    ResourceManager::loadShader("scacchiera", "../Shaders/scacchiera.vs", "../Shaders/scacchiera.fs");
+    float verteces[] = {
+        -1.0f, -1.0f,
+        -1.0f, 1.0f,
+        1.0f, -1.0f,
+        1.0f, 1.0f
+    };
+
+    unsigned int VBO;
+    glGenVertexArrays(1, &(this->VAO));
+    glGenBuffers(1, &VBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verteces), verteces, GL_STATIC_DRAW);
+
+    glBindVertexArray(VAO);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+
+    glDeleteBuffers(1, &VBO);
 }
 
 void Gioco::mouseCallback(int button, int action, int mods){
-    if (button == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
-        shouldClose = true;
-    }
+
 }
 
 void Gioco::keyCallback(int key, int scancode, int action, int mods){
-
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
+        shouldClose = true;
+    }
 }
 
 bool Gioco::mossaValida(int rigaPartenza, int colonnaPartenza, int rigaArrivo, int colonnaArrivo){
@@ -61,4 +84,21 @@ bool Gioco::mossaValida(int rigaPartenza, int colonnaPartenza, int rigaArrivo, i
         return scacchiera[partenza.posizione]->muovi(arrivo, scacchiera);
     }
     return false;
+}
+
+void Gioco::render(GLFWwindow *window){
+    if (glfwWindowShouldClose(window)){
+        shouldClose = true;
+        return ;
+    }
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    ResourceManager::GetShader("scacchiera").use();
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glBindVertexArray(0);
+
+    glfwSwapBuffers(window);
+    glfwWaitEvents();
 }

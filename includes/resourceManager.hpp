@@ -19,6 +19,7 @@ public:
 private:
     ResourceManager();
 
+    static Shader loadShaderFromFile(const std::string& vertexFile, const std::string& fragmentFile);
 };
 
 #endif

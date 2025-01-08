@@ -8,11 +8,17 @@ ResourceManager::ResourceManager(){
 }
 
 Shader ResourceManager::loadShader(const std::string& name, const std::string &vertexFile, const std::string &fragmentFile){
-    shaders[name] = Shader();
-    shaders[name].compile(vertexFile, fragmentFile);
+    shaders[name] = loadShaderFromFile(vertexFile, fragmentFile);
+
     return shaders[name];
 }
 
 Shader ResourceManager::GetShader(std::string name){
     return shaders[name];
+}
+
+Shader ResourceManager::loadShaderFromFile(const std::string& vertexFile, const std::string& fragmentFile){
+    Shader shader;
+    shader.compile(vertexFile, fragmentFile);
+    return shader;
 }

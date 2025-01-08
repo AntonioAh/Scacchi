@@ -1,0 +1,10 @@
+[
+  {
+    "label": "esegui",
+    "command": "cd build; make; ./Scacchi",
+    "reveal": "always",
+    "show_summary": true,
+    "show_output": true,
+    "use_new_terminal": false
+  }
+]

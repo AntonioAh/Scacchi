@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include <shader.hpp>
 #include <fstream>
 #include <sstream>
@@ -15,6 +14,7 @@ Shader& Shader::use(){
 
 void Shader::compile(const std::string& nameFileVertex, const std::string& nameFileFragment){
     std::ifstream fileVertex(nameFileVertex), fileFragment(nameFileFragment);
+
 
     if (!fileVertex.is_open()){
         std::cerr << "Impossibile aprire file " << nameFileVertex << "\n";
@@ -34,27 +34,32 @@ void Shader::compile(const std::string& nameFileVertex, const std::string& nameF
     fileFragment.close();
 
     std::string strVertex = streamVertex.str(), strFragment = streamFragment.str();
-    const char *vertexCode = strVertex.c_str(), *fragmentCode = strFragment.c_str();
+    const char *vertexCode = strVertex.c_str();
+    const char *fragmentCode = strFragment.c_str();
 
-    unsigned int vertexId = glCreateShader(GL_VERTEX_SHADER);
+    std :: cout << "arrivato\n";
+    unsigned int vertexId, fragmentId;
+
+    vertexId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexId, 1, &vertexCode, nullptr);
     glCompileShader(vertexId);
     checkCompileErrors(vertexId);
 
-    unsigned int fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+    fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentId, 1, &fragmentCode, nullptr);
     glCompileShader(fragmentId);
     checkCompileErrors(fragmentId);
 
-    id = glCreateProgram();
-    glAttachShader(id, vertexId);
-    glAttachShader(id, fragmentId);
-    glLinkProgram(id);
-    checkCompileErrors(id, true);
+    this->id = glCreateProgram();
+    glAttachShader(this->id, vertexId);
+    glAttachShader(this->id, fragmentId);
+    glLinkProgram(this->id);
+    checkCompileErrors(this->id, true);
 
 
     glDeleteShader(vertexId);
     glDeleteShader(fragmentId);
+
 }
 
 void Shader::checkCompileErrors(unsigned int object, bool isProgram){
