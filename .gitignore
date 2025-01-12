@@ -3,3 +3,4 @@ build/
 includes/glad/
 includes/KHR
 src/glad.c
+includes/stb_image.h

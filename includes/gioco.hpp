@@ -19,8 +19,8 @@ public:
 
     bool shouldClose;
 
-    void mouseCallback(int button, int action, int mods);
-    void keyCallback(int key, int scancode, int action, int mods);
+    void mouseCallback(GLFWwindow *window, int button, int action, int mods);
+    void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 
     void render(GLFWwindow *window);
@@ -33,14 +33,14 @@ private:
     std::array<std::unique_ptr<Pezzo> , 64> scacchiera;
 
     //verifica se una mossa e' fattibile (const Casella di arrivo vuota o avversaria)
-    bool mossaValida(int rigaPartenza, int colonnaPartenza, int rigaArrivo, int colonnaArrivo);
+    bool mossaValida(const Casella& partenza, const Casella& arrivo);
 
+    bool daMuovere;
+    Casella partenza;
+    Casella arrivo;
+    void aggiornaPezzo(const Casella& partenza, const Casella& arrivo);
 
-
-    Colore& turno;
-
-    Colore bianco = Colore::BIANCO;
-    Colore nero = Colore::NERO;
+    Colore turno;
 };
 
 

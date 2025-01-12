@@ -3,16 +3,18 @@
 #include <sstream>
 #include <iostream>
 
+#include <glm/gtc/type_ptr.hpp>
+
 Shader::Shader(){
 
 }
 
-Shader& Shader::use(){
+const Shader& Shader::use() const {
     glUseProgram(this->id);
     return *this;
 }
 
-void Shader::compile(const std::string& nameFileVertex, const std::string& nameFileFragment){
+void Shader::compile(const std::string& nameFileVertex, const std::string& nameFileFragment) {
     std::ifstream fileVertex(nameFileVertex), fileFragment(nameFileFragment);
 
 
@@ -80,4 +82,11 @@ void Shader::checkCompileErrors(unsigned int object, bool isProgram){
             std::cerr << infoLog << "\n";
         }
     }
+}
+
+void Shader::SetMatrix4(const char *name, const glm::mat4& matrice, bool useShader) const {
+    if (useShader)
+        this->use();
+
+    glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, glm::value_ptr(matrice));
 }

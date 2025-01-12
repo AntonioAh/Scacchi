@@ -19,8 +19,9 @@ file(GLOB Scacchi_SRC
 )
 
 # Add executab1le target
-add_executable(Scacchi ${Scacchi_SRC})
+#add_executable(Scacchi ${Scacchi_SRC})
 
+add_executable(Scacchi src/gioco.cpp src/glad.c src/main.cpp src/pedone.cpp src/pezzo.cpp src/resourceManager.cpp src/shader.cpp src/texture.cpp src/utils.cpp)
 
 include_directories(include includes)
 include_directories(include includes/Pezzi)

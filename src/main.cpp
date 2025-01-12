@@ -52,9 +52,9 @@ int main(int argc, char *argv[]){
 }
 
 void key_callback_funtion(GLFWwindow *window, int key, int scancode, int action, int mods){
-    gioco.keyCallback(key, scancode, action, mods);
+    gioco.keyCallback(window, key, scancode, action, mods);
 }
 
 void mouse_callback_funcion(GLFWwindow *window, int button, int action, int mods){
-    gioco.mouseCallback(button, action, mods);
+    gioco.mouseCallback(window, button, action, mods);
 }

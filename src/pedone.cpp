@@ -1,7 +1,8 @@
 
 #include <pedone.hpp>
 
-Pedone::Pedone(int riga, int colonna, const Colore& colore) : Pezzo(riga, colonna, colore, 1){
+Pedone::Pedone(int riga, int colonna, const Colore& colore, const std::string& texture) :
+    Pezzo(riga, colonna, colore, 1, texture){
 
 }
 
@@ -12,16 +13,17 @@ bool Pedone::muovi(const Casella& arrivo, std::array<std::unique_ptr<Pezzo>, 64>
         if (!scacchiera[arrivo.posizione]){
             int diff = (arrivo.riga - riga) * verso;
 
-            if (diff == 8)
+            if (diff == 1){
                 return true;
+            }
 
             bool seconda = colore == Colore::BIANCO ? riga == 6 : riga == 1;
-            if (diff == 16 && seconda && !scacchiera[arrivo.posizione  - 8 * verso])
+            if (diff == 2 && seconda && !scacchiera[arrivo.posizione  - 8 * verso])
                 return true;
         }
     }
     else if (abs(arrivo.colonna - colonna) == 1){
-        if (arrivo.riga - riga == verso && scacchiera[arrivo.posizione])
+        if (arrivo.riga - riga == verso && scacchiera[arrivo.posizione].get())
             return true;
     }
 
